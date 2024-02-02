@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-service
+  namespace: core
+spec:
+  selector:
+    matchLabels:
+      app: dashboard-service
+  template:
+    metadata:
+      labels:
+        app: dashboard-service
+    spec:
+      containers:
+      - name: dashboard-service
+        image: aditirvan/istio-sample-app:dashboard
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 8080
+        env:
+          - name: API_PRODUCT
+            value: http://product-service.core.svc.cluster.local/api/products
+          - name: API_CUSTOMER
+            value: http://customer-service.core.svc.cluster.local/api/customers

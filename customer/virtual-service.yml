@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: customer-virtualservice
+  namespace: core
+spec:
+  hosts:
+  - "customer-service.core.svc.cluster.local"
+  http:
+  - name: "customer-canary-deployment"
+    route:
+    - destination:
+        host: customer-service.core.svc.cluster.local
+        subset: v1
+      weight: 80
+    - destination:
+        host: customer-service.core.svc.cluster.local
+        subset: v2
+      weight: 0
+    - destination:
+        host: customer-service.core.svc.cluster.local
+        subset: v3
+      weight: 20
